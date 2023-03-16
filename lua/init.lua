@@ -1,0 +1,1 @@
+print('autostart is starting')
