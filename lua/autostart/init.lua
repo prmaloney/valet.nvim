@@ -13,13 +13,38 @@ local function save_config()
   Path:new(cache_config):write(vim.fn.json_encode(AutostartConfig), 'w')
 end
 
-function get_current_project()
-  local projects = vim.fn.keys(AutostartConfig)
+local function get_current_project()
+  local projects = vim.fn.keys(AutostartConfig.projects)
   local cwd = vim.fn.getcwd()
 
-  for _, project_dir in ipairs(projects) do
-    if cwd:match('^' .. project_dir) == project_dir then return project_dir end
+  local function starts_with(str, start)
+    return str:sub(1, #start) == start
   end
+
+  for _, project_dir in ipairs(projects) do
+    if starts_with(cwd, project_dir) then return project_dir end
+  end
+end
+
+local function start_commands()
+  local currentProject = get_current_project()
+  if currentProject == nil then return end
+
+  local commands = AutostartConfig.projects[currentProject]
+  if (commands == nil or #commands == 0) then return end
+
+  local mainbuf = vim.api.nvim_get_current_buf()
+  for _, command in ipairs(commands) do
+    vim.cmd('term')
+    local term_id = vim.b.terminal_job_id
+
+    vim.api.nvim_chan_send(term_id, command .. '\r')
+  end
+  vim.api.nvim_set_current_buf(mainbuf)
+end
+
+function M.restart_commands()
+  start_commands()
 end
 
 function M.new_project()
@@ -29,7 +54,7 @@ function M.new_project()
   }, function(input)
     if input == nil then return end
 
-    AutostartConfig[input] = {}
+    AutostartConfig.projects[input] = {}
     save_config()
   end)
 end
@@ -41,18 +66,18 @@ function M.new_command()
   vim.ui.input({ prompt = 'Enter new autostart command: ' }, function(command)
     if command == nil then return end
 
-    table.insert(AutostartConfig[currentProject], command)
+    table.insert(AutostartConfig.projects[currentProject], command)
     save_config()
   end)
 end
 
 function M.delete_project()
-  vim.ui.select(vim.fn.keys(AutostartConfig),
+  vim.ui.select(vim.fn.keys(AutostartConfig.projects),
     { prompt = 'Select project to delete' },
     function(selection)
       if selection == nil then return end
 
-      AutostartConfig[selection] = nil
+      AutostartConfig.projects[selection] = nil
       save_config()
     end
   )
@@ -60,7 +85,7 @@ end
 
 function M.delete_command()
   local currentProject = get_current_project()
-  local commands = AutostartConfig[currentProject]
+  local commands = AutostartConfig.projects[currentProject]
 
   vim.ui.select(commands,
     { prompt = 'Select a command to delete' },
@@ -82,25 +107,24 @@ function M.clear_projects()
     { prompt = 'Are you sure? (you cannot undo this)' },
     function(selection)
       if selection ~= 'yes' then
-        AutostartConfig = {}
+        AutostartConfig.projects = {}
         save_config()
       end
     end
   )
-  AutostartConfig = {}
   save_config()
 end
 
 function M.print_projects()
-  print(vim.inspect(AutostartConfig))
+  print(vim.inspect(AutostartConfig.projects))
 end
 
-function M.setup(config)
-  AutostartConfig = config or {}
-
+function M.setup()
   local ok, c_config = pcall(read_config, cache_config)
   if ok then
-    AutostartConfig = vim.tbl_deep_extend("force", c_config, AutostartConfig)
+    AutostartConfig = c_config
+  else
+    AutostartConfig = { projects = {} }
   end
   save_config()
 
@@ -112,9 +136,7 @@ function M.setup(config)
   vim.api.nvim_create_augroup('Autostart', { clear = true })
   vim.api.nvim_create_autocmd('VimEnter', {
     group = 'Autostart',
-    callback = function()
-      -- TODO: actual logic gets called here
-    end
+    callback = start_commands
   })
 end
 
