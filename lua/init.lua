@@ -1,1 +1,0 @@
-print('autostart is starting')
