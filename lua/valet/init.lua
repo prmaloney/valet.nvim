@@ -126,7 +126,7 @@ function M.clear_projects()
 end
 
 function M.print_projects()
-  print(vim.inspect(ValetConfig.projects))
+  print(vim.inspect(vim.fn.keys(ValetConfig.projects)))
 end
 
 function M.setup()
