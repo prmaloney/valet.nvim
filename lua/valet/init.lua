@@ -30,7 +30,6 @@ end
 
 local function start_commands()
   local currentProject = get_current_project()
-  print(vim.inspect(currentProject))
   if currentProject == nil then return end
 
   local commands = ValetConfig.projects[currentProject]
