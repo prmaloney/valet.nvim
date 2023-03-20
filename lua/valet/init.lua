@@ -1,7 +1,7 @@
 local Path = require("plenary.path")
 
 local cache_path = vim.fn.stdpath("data")
-local cache_config = string.format("%s/autostart.json", cache_path)
+local cache_config = string.format("%s/valet.json", cache_path)
 
 local M = {}
 
@@ -63,7 +63,7 @@ function M.new_command()
   local currentProject = get_current_project()
   if currentProject == nil then return end
 
-  vim.ui.input({ prompt = 'Enter new autostart command: ' }, function(command)
+  vim.ui.input({ prompt = 'Enter new valet command: ' }, function(command)
     if command == nil then return end
 
     table.insert(ValetConfig.projects[currentProject], command)
@@ -141,9 +141,9 @@ function M.setup()
   vim.api.nvim_create_user_command('ValetDeleteProject', M.delete_project, {})
   vim.api.nvim_create_user_command('ValetDeleteCommand', M.delete_command, {})
 
-  vim.api.nvim_create_augroup('Autostart', { clear = true })
+  vim.api.nvim_create_augroup('Valet', { clear = true })
   vim.api.nvim_create_autocmd('VimEnter', {
-    group = 'Autostart',
+    group = 'Valet',
     callback = start_commands
   })
 end
