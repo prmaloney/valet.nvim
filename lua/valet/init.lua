@@ -14,6 +14,8 @@ local function save_config()
 end
 
 local function get_current_project()
+  if next(ValetConfig.projects) == nil then return end
+
   local projects = vim.fn.keys(ValetConfig.projects)
   local cwd = vim.fn.getcwd()
 
@@ -28,6 +30,7 @@ end
 
 local function start_commands()
   local currentProject = get_current_project()
+  print(vim.inspect(currentProject))
   if currentProject == nil then return end
 
   local commands = ValetConfig.projects[currentProject]
