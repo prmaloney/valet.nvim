@@ -112,7 +112,7 @@ function M.delete_command()
   )
 end
 
-function M.view_commands()
+function M.print_commands()
   local currentProject = get_current_project()
   if currentProject == nil then return end
 
