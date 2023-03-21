@@ -117,6 +117,7 @@ function M.print_commands()
   if currentProject == nil then return end
 
   local commands = ValetConfig.projects[currentProject]
+  print(vim.inspect(commands))
 end
 
 function M.clear_projects()
