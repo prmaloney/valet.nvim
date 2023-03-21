@@ -77,7 +77,7 @@ since I think they're probably less common to use. Still nice to have though.
 | `require('valet').print_projects()`  | print out all projects registered with valet   |
 | `require('valet').delete_project()`  | delete a project                               |
 | `require('valet').clear_projects()`  | clear all projects (use this _very_ carefully) |
-| `require('valet').view_commands()`   | view all commands for the current project      |
+| `require('valet').print_commands()`  | view all commands for the current project      |
 | `require('valet).restart_commands()` | restart all commands for the current project   |
 
 ## Roadmap
