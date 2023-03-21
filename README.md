@@ -40,18 +40,26 @@ use {
   }
 ```
 
+## Configuration
+
+Valet supports the following parameter:
+
+```lua
+require('valet').setup({
+    after_all = function print('done!') end
+  })
+```
+
 ## Usage
 
 valet.nvim exposes commands which are also associated with a lua api.
 
 <!-- commands:start -->
 
-| Command               | lua                                 | description                               |
-| --------------------- | ----------------------------------- | ----------------------------------------- |
-| `:ValetAddProject`    | `require('valet').add_project()`    | add a new project to the global list      |
-| `:ValetDeleteProject` | `require('valet').delete_project()` | delete a new project from the global list |
-| `:ValetAddCommand`    | `require('valet').add_command()`    | add a command for the current project     |
-| `:ValetDeleteCommand` | `require('valet').delete_command()` | delete a command for the current project  |
+| Command               | lua                                 | description                              |
+| --------------------- | ----------------------------------- | ---------------------------------------- |
+| `:ValetAddCommand`    | `require('valet').add_command()`    | add a command for the current project    |
+| `:ValetDeleteCommand` | `require('valet').delete_command()` | delete a command for the current project |
 
 <!-- commands:end -->
 
@@ -61,6 +69,7 @@ since I think they're probably less common to use. Still nice to have though.
 | function                             | description                                    |
 | ------------------------------------ | ---------------------------------------------- |
 | `require('valet').print_projects()`  | print out all projects registered with valet   |
+| `require('valet').delete_project()`  | delete a project                               |
 | `require('valet').clear_projects()`  | clear all projects (use this _very_ carefully) |
 | `require('valet').view_commands()`   | view all commands for the current project      |
 | `require('valet).restart_commands()` | restart all commands for the current project   |
