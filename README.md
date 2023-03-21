@@ -20,9 +20,14 @@ This plugin allows you to specify a
 project from it's root directory, and associate one or more commands to run as
 soon as neovim is started from that project (or any of its subdirectories).
 
+## Requirements
+
+- Neovim >= 0.7.0
+- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim) (if you use
+  Telescope you already have this)
+
 ## Installation
 
-- neovim 0.5.0+ is required
 - Lazy:
 
 ```lua
@@ -46,6 +51,7 @@ Valet supports the following parameter:
 
 ```lua
 require('valet').setup({
+    -- function to run after all commands are executed
     after_all = function print('done!') end
   })
 ```
