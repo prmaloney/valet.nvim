@@ -10,7 +10,8 @@ local function read_config(local_config)
 end
 
 local function save_config()
-  Path:new(cache_config):write(vim.fn.json_encode(ValetConfig), 'w')
+  local config_to_save = { projects = ValetConfig.projects }
+  Path:new(cache_config):write(vim.fn.json_encode(config_to_save), 'w')
 end
 
 local function get_current_project()
@@ -43,6 +44,10 @@ local function start_commands()
     vim.api.nvim_chan_send(term_id, command .. '\r')
   end
   vim.api.nvim_set_current_buf(mainbuf)
+
+  if ValetConfig.after_all then
+    ValetConfig.after_all()
+  end
 end
 
 function M.restart_commands()
@@ -109,7 +114,6 @@ function M.view_commands()
   if currentProject == nil then return end
 
   local commands = ValetConfig.projects[currentProject]
-  print(vim.inspect(commands))
 end
 
 function M.clear_projects()
@@ -129,12 +133,17 @@ function M.print_projects()
   print(vim.inspect(vim.fn.keys(ValetConfig.projects)))
 end
 
-function M.setup()
+function M.get_valet_config()
+  return ValetConfig
+end
+
+function M.setup(config)
+  config = config or {}
   local ok, c_config = pcall(read_config, cache_config)
   if ok then
-    ValetConfig = c_config
+    ValetConfig = vim.tbl_deep_extend('keep', config, c_config)
   else
-    ValetConfig = { projects = {} }
+    ValetConfig = vim.tbl_deep_extend('keep', config, { projects = {} })
   end
   save_config()
 
