@@ -54,7 +54,7 @@ function M.restart_commands()
   start_commands()
 end
 
-function M.new_project()
+function create_project()
   vim.ui.input({
     prompt = 'Project root directory: ',
     default = vim.fn.getcwd()
@@ -68,9 +68,12 @@ end
 
 function M.new_command()
   local currentProject = get_current_project()
-  if currentProject == nil then return end
+  if currentProject == nil then
+    create_project()
+    currentProject = get_current_project()
+  end
 
-  vim.ui.input({ prompt = 'Enter new valet command: ' }, function(command)
+  vim.ui.input({ prompt = 'Enter new valet command for ' .. currentProject .. ': ' }, function(command)
     if command == nil then return end
 
     table.insert(ValetConfig.projects[currentProject], command)
@@ -147,9 +150,7 @@ function M.setup(config)
   end
   save_config()
 
-  vim.api.nvim_create_user_command('ValetNewProject', M.new_project, {})
   vim.api.nvim_create_user_command('ValetNewCommand', M.new_command, {})
-  vim.api.nvim_create_user_command('ValetDeleteProject', M.delete_project, {})
   vim.api.nvim_create_user_command('ValetDeleteCommand', M.delete_command, {})
 
   vim.api.nvim_create_augroup('Valet', { clear = true })
