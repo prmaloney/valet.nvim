@@ -54,7 +54,7 @@ function M.restart_commands()
   start_commands()
 end
 
-function create_project()
+local function create_project()
   vim.ui.input({
     prompt = 'Project root directory: ',
     default = vim.fn.getcwd()
