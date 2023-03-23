@@ -52,7 +52,7 @@ Valet supports the following parameter:
 ```lua
 require('valet').setup({
     -- function to run after all commands are executed
-    after_all = function print('done!') end
+    after_all = function() print('done!') end
   })
 ```
 
@@ -82,6 +82,8 @@ since I think they're probably less common to use. Still nice to have though.
 
 ## Roadmap
 
+- A nicer UI (`vim.input` and `vim.select` are a good place to start, but we can
+  probably do better)
 - Add support for running commands using a specified terminal plugin (i.e.
   floatterm, toggleterm, etc.)
 - Allow specifying an order to the commands to run (i.e. if you need to run a build before starting
