@@ -12,6 +12,7 @@ end
 
 function M.save_config(commands)
   if commands ~= nil then
+    commands = require('valet.utils').filter_empties(commands)
     ValetConfig.projects[require('valet.project').get_current_project()] = commands
   end
   local config_to_save = { projects = ValetConfig.projects }
