@@ -66,6 +66,7 @@ valet.nvim exposes commands which are also associated with a lua api.
 | --------------------- | ----------------------------------- | ---------------------------------------- |
 | `:ValetAddCommand`    | `require('valet').add_command()`    | add a command for the current project    |
 | `:ValetDeleteCommand` | `require('valet').delete_command()` | delete a command for the current project |
+| `:ValetToggleMenu`    | `require('valet').toggle_menu()`    | toggle the menu to edit valet commands   |
 
 <!-- commands:end -->
 
