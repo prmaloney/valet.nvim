@@ -86,9 +86,11 @@ function M.toggle_menu()
       vim.bo.modified = false
     end
   })
-  vim.cmd(
-    "autocmd BufLeave <buffer> ++nested ++once silent lua require('valet.ui').toggle_menu()"
-  )
+  vim.api.nvim_create_autocmd('BufLeave', {
+    nested = true,
+    once = true,
+    callback = function() require('valet.ui').toggle_menu() end
+  })
 end
 
 return M
