@@ -62,11 +62,11 @@ valet.nvim exposes commands which are also associated with a lua api.
 
 <!-- commands:start -->
 
-| Command               | lua                                 | description                              |
-| --------------------- | ----------------------------------- | ---------------------------------------- |
-| `:ValetAddCommand`    | `require('valet').add_command()`    | add a command for the current project    |
-| `:ValetDeleteCommand` | `require('valet').delete_command()` | delete a command for the current project |
-| `:ValetToggleMenu`    | `require('valet').toggle_menu()`    | toggle the menu to edit valet commands   |
+| Command               | lua                                 | description                               |
+| --------------------- | ----------------------------------- | ----------------------------------------- |
+| `:ValetAddCommand`    | `require('valet').new_command()`    | add a new command for the current project |
+| `:ValetDeleteCommand` | `require('valet').delete_command()` | delete a command for the current project  |
+| `:ValetToggleMenu`    | `require('valet.ui').toggle_menu()` | toggle the menu to edit valet commands    |
 
 <!-- commands:end -->
 
@@ -83,12 +83,13 @@ since I think they're probably less common to use. Still nice to have though.
 
 ## Roadmap
 
-- A nicer UI (`vim.input` and `vim.select` are a good place to start, but we can
-  probably do better)
-- Add support for running commands using a specified terminal plugin (i.e.
-  floatterm, toggleterm, etc.)
-- Allow specifying an order to the commands to run (i.e. if you need to run a build before starting
-  another command)
+- [x] A nicer UI (`vim.input` and `vim.select` are a good place to start, but we can
+      probably do better)
+- [ ] Add support for running commands using a specified terminal plugin (i.e.
+      floatterm, toggleterm, etc.)
+- [ ] Allow specifying an order to the commands to run (i.e. if you need to run a build before starting
+      another command)
+- [ ] Maybe a way to 'close on finish' to avoid polluting with term buffers
 
 ## Thanks
 
