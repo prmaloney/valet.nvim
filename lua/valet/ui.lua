@@ -57,6 +57,7 @@ function M.toggle_menu()
   vim.api.nvim_buf_set_name(Valet_bufh, "valet-menu")
   vim.api.nvim_buf_set_lines(Valet_bufh, 0, #contents, false, contents)
   vim.api.nvim_buf_set_option(Valet_bufh, "filetype", "valet")
+  vim.api.nvim_buf_set_option(Valet_bufh, "syntax", "bash")
   vim.api.nvim_buf_set_option(Valet_bufh, "buftype", "acwrite")
   vim.api.nvim_buf_set_option(Valet_bufh, "bufhidden", "delete")
   vim.api.nvim_buf_set_keymap(
