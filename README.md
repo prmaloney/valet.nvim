@@ -47,11 +47,13 @@ use {
 
 ## Configuration
 
-Valet supports the following parameter:
+Valet accepts the following parameters:
 
 ```lua
 require('valet').setup({
-    -- function to run after all commands are executed
+    -- boolean to delete buffers if completed, default false
+    delete_finished = false,
+    -- function to run after all commands are started
     after_all = function() print('done!') end
   })
 ```
@@ -89,7 +91,7 @@ since I think they're probably less common to use. Still nice to have though.
       floatterm, toggleterm, etc.)
 - [ ] Allow specifying an order to the commands to run (i.e. if you need to run a build before starting
       another command)
-- [ ] Maybe a way to 'close on finish' to avoid polluting with term buffers
+- [x] Maybe a way to 'close on finish' to avoid polluting with term buffers
 
 ## Thanks
 

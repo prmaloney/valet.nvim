@@ -7,12 +7,8 @@ function M.get_current_project()
   local projects = vim.fn.keys(config.projects)
   local cwd = vim.fn.getcwd()
 
-  local function starts_with(str, start)
-    return str:sub(1, #start) == start
-  end
-
   for _, project_dir in ipairs(projects) do
-    if starts_with(cwd, project_dir) then return project_dir end
+    if require('valet.utils').starts_with(cwd, project_dir) then return project_dir end
   end
 end
 

@@ -12,4 +12,8 @@ function M.filter_empties(list)
   return non_empties
 end
 
+function M.starts_with(str, start)
+  return str:sub(1, #start) == start
+end
+
 return M

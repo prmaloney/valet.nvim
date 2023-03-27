@@ -19,17 +19,34 @@ function M.save_config(commands)
   Path:new(cache_config):write(vim.fn.json_encode(config_to_save), 'w')
 end
 
+local function delete_on_finish(buf)
+  vim.api.nvim_create_autocmd('TextChanged', {
+    buffer = buf,
+    callback = function()
+      local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, true)
+
+      for _, line in ipairs(lines) do
+        if require('valet.utils').starts_with(line, '[Process ') then
+          vim.api.nvim_buf_delete(buf, {})
+        end
+      end
+    end
+  })
+end
+
 local function start_commands()
   local commands = require('valet.project').get_project_commands()
   if (commands == nil or #commands == 0) then return end
 
   local mainbuf = vim.api.nvim_get_current_buf()
   for _, command in ipairs(commands) do
-    vim.cmd('term')
-    ---@diagnostic disable-next-line: undefined-field
-    local term_id = vim.b.terminal_job_id
+    vim.cmd('term ' .. command)
+    local buf = vim.api.nvim_get_current_buf()
 
-    vim.api.nvim_chan_send(term_id, command .. '\r')
+    -- vim.api.nvim_chan_send(term_id, command .. '\r')
+    if ValetConfig.delete_finished then
+      delete_on_finish(buf)
+    end
   end
   vim.api.nvim_set_current_buf(mainbuf)
 
